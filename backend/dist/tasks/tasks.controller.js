@@ -35,12 +35,22 @@ let TasksController = class TasksController {
         return await this.tasksService.getAllTasks();
     }
     ;
-    async getTaskById(id) {
-        return await this.tasksService.getTaskById(id);
+    async getWeeklyStats(user) {
+        const username = user.username;
+        return this.tasksService.getWeeklyCompletedStats(username);
+    }
+    ;
+    async setTaskStatus(id, status, user) {
+        const username = user.username;
+        return this.tasksService.setTaskStatus(id, status, username);
     }
     ;
     async getTeamTasks(team) {
         return await this.tasksService.getTeamTasks(team);
+    }
+    ;
+    async getTaskById(id) {
+        return await this.tasksService.getTaskById(id);
     }
     ;
     async getTasksByUser(id) {
@@ -49,11 +59,6 @@ let TasksController = class TasksController {
     ;
     async deleteTask(id, user) {
         return await this.tasksService.deleteTask(id, user.username);
-    }
-    ;
-    async getWeeklyStats(user) {
-        const username = user.username;
-        return this.tasksService.getWeeklyCompletedStats(username);
     }
     ;
 };
@@ -72,7 +77,7 @@ __decorate([
     (0, common_1.Patch)('update/:id'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_decorator_1.User)()),
-    __param(2, (0, common_1.Param)()),
+    __param(2, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, String]),
     __metadata("design:returntype", Promise)
@@ -85,13 +90,23 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "getAllTasks", null);
 __decorate([
+    (0, common_1.Get)('weekly-stats'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, user_decorator_1.User)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], TasksController.prototype, "getTaskById", null);
+], TasksController.prototype, "getWeeklyStats", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Patch)('set-task-status/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)('status')),
+    __param(2, (0, user_decorator_1.User)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "setTaskStatus", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('team/:team'),
@@ -100,6 +115,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "getTeamTasks", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "getTaskById", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('user/:id'),
@@ -117,14 +140,6 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "deleteTask", null);
-__decorate([
-    (0, common_1.Get)('weekly-stats'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, user_decorator_1.User)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], TasksController.prototype, "getWeeklyStats", null);
 exports.TasksController = TasksController = __decorate([
     (0, common_1.Controller)('tasks'),
     __metadata("design:paramtypes", [tasks_service_1.TasksService])

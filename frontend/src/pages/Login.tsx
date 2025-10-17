@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { logIn } from "../api/auth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -21,7 +22,7 @@ const Login = () => {
                 navigate("/");
             } catch (error: any) {
                 if (error.response?.status === 401) {
-                    console.log("Wrong credentials.");
+                    toast.error("Wrong credentials!");
                 } else {
                     console.log("Something went wrong.");
                     console.error(error);
@@ -48,6 +49,7 @@ const Login = () => {
                 </div>
                 <button onClick={handleLogin} className='bg-blue-600 w-fit px-4 py-2 rounded-2xl flex self-center mt-8 font-bold hover:cursor-pointer'>Login</button>
             </div>
+            <p className="mt-4">Don't you have an account? <a href="/signup" className="text-blue-600">create one</a>!</p>
         </div>
     )
 }

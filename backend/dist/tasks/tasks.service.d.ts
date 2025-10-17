@@ -33,7 +33,7 @@ export declare class TasksService {
         _id: unknown;
     }> & {
         __v: number;
-    }) | null>;
+    })[]>;
     getTasksByUser(username: string): Promise<(import("mongoose").Document<unknown, {}, TaskDocument, {}, {}> & Task & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {

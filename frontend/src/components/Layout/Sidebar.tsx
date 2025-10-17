@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 const menuItems: any = {
     'Tasks': [
-        { name: 'My Tasks', href: '/mytasks' },
-        { name: 'My Team\'s Tasks', href: '/teamtasks' },
+        { name: 'My Tasks', href: '/my-tasks' },
+        { name: 'Create Task', href: '/create-task' },
     ],
     'Teams': [
         { name: 'My Teams', href: '/teams' },
-        { name: 'Create Team', href: '/createteam' },
+        { name: 'Create Team', href: '/create-team' },
     ],
 };
 
@@ -85,10 +85,9 @@ const Sidebar = () => {
                     } bg-zinc-900 p-6 shadow-xl flex flex-col border-r`}
             >
                 <div className="flex flex-col">
-                    <h2 className="text-2xl mb-8 text-center font-extrabold tracking-tight bg-gradient-to-r from-purple-400 to-rose-500 text-transparent bg-clip-text">
+                    <a href="/"><h2 className="text-2xl mb-8 text-center font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-indigo-900 text-transparent bg-clip-text">
                         Dashboard
-                    </h2>
-
+                    </h2></a>
                     <nav>
                         <ul className="space-y-4">
                             {Object.keys(menuItems).map((key) => (

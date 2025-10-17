@@ -28,7 +28,7 @@ let TeamsController = class TeamsController {
     }
     ;
     async disbandTeam(team, user) {
-        return await this.teamsService.disbandTeam(team, user.username);
+        return await this.teamsService.disbandTeam(team, user);
     }
     ;
     async addMember(teamsAddMemberDto, user) {
@@ -43,11 +43,15 @@ let TeamsController = class TeamsController {
         return await this.teamsService.getMembers(team);
     }
     ;
+    async getMyTeams(user) {
+        return await this.teamsService.getMyTeams(user);
+    }
+    ;
 };
 exports.TeamsController = TeamsController;
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Post)('/create'),
+    (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)('name')),
     __param(1, (0, user_decorator_1.User)()),
     __metadata("design:type", Function),
@@ -89,6 +93,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeamsController.prototype, "getMembers", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)('myteams'),
+    __param(0, (0, user_decorator_1.User)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TeamsController.prototype, "getMyTeams", null);
 exports.TeamsController = TeamsController = __decorate([
     (0, common_1.Controller)('teams'),
     __metadata("design:paramtypes", [teams_service_1.TeamsService])

@@ -1,4 +1,4 @@
-import { TasksService } from './tasks.service';
+import { TasksService, TaskStatus } from './tasks.service';
 import type { TaskActionDto } from './dto/task-action.dto';
 export declare class TasksController {
     private tasksService;
@@ -18,12 +18,18 @@ export declare class TasksController {
     }> & {
         __v: number;
     })[]>;
-    getTaskById(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/tasks.schema").TaskDocument, {}, {}> & import("./schemas/tasks.schema").Task & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    getWeeklyStats(user: any): Promise<any[]>;
+    setTaskStatus(id: string, status: TaskStatus, user: any): Promise<import("mongoose").Document<unknown, {}, import("./schemas/tasks.schema").TaskDocument, {}, {}> & import("./schemas/tasks.schema").Task & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {
         __v: number;
-    }) | null>;
+    }>;
     getTeamTasks(team: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/tasks.schema").TaskDocument, {}, {}> & import("./schemas/tasks.schema").Task & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    getTaskById(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/tasks.schema").TaskDocument, {}, {}> & import("./schemas/tasks.schema").Task & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {
         __v: number;
@@ -38,5 +44,4 @@ export declare class TasksController {
     }> & {
         __v: number;
     }) | null>;
-    getWeeklyStats(user: any): Promise<any[]>;
 }

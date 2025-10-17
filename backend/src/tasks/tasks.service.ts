@@ -50,7 +50,7 @@ export class TasksService {
     };
 
     async getTeamTasks(team: string) {
-        return await this.taskModel.findOne({ team: team })
+        return await this.taskModel.find({ team: team })
     };
 
     async getTasksByUser(username: string) {
@@ -81,12 +81,16 @@ export class TasksService {
         if (status === TaskStatus.DONE) {
             task.completedAt = new Date();
         };
+        if (status === TaskStatus.IN_PROGRESS) {
+            task.assignedTo = username;
+            // ensure completedAt is unset when moving back to in-progress
+            task.completedAt = null;
+        }
         task.status = status;
         return await task.save();
     };
 
-    // ai'a yazdirdim :)
-
+    // bu methodu ai'a yazdirdim :)
     async getWeeklyCompletedStats(username: string): Promise<any[]> {
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 

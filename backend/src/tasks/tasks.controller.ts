@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { TasksService } from './tasks.service';
+import { TasksService, TaskStatus } from './tasks.service';
 import type { TaskActionDto } from './dto/task-action.dto';
 import { User } from 'src/auth/user.decorator';
 
@@ -16,7 +16,7 @@ export class TasksController {
 
     @UseGuards(AuthGuard)
     @Patch('update/:id')
-    async updateTask(@Body() taskActionDto: TaskActionDto, @User() user: any, @Param() id: string) {
+    async updateTask(@Body() taskActionDto: TaskActionDto, @User() user: any, @Param('id') id: string) {
         return await this.tasksService.updateTask(taskActionDto, id, user.username);
     };
 
@@ -26,16 +26,30 @@ export class TasksController {
         return await this.tasksService.getAllTasks();
     };
 
+    @Get('weekly-stats')
     @UseGuards(AuthGuard)
-    @Get(':id')
-    async getTaskById(@Param('id') id: string) {
-        return await this.tasksService.getTaskById(id);
+    async getWeeklyStats(@User() user : any) {
+        const username = user.username;
+        return this.tasksService.getWeeklyCompletedStats(username);
+    };
+
+    @UseGuards(AuthGuard)
+    @Patch('set-task-status/:id')
+    async setTaskStatus(@Param('id') id : string,@Body('status') status : TaskStatus,@User() user : any) {
+        const username = user.username;
+        return this.tasksService.setTaskStatus(id,status,username);
     };
 
     @UseGuards(AuthGuard)
     @Get('team/:team')
     async getTeamTasks(@Param('team') team: string) {
         return await this.tasksService.getTeamTasks(team);
+    };
+
+    @UseGuards(AuthGuard)
+    @Get(':id')
+    async getTaskById(@Param('id') id: string) {
+        return await this.tasksService.getTaskById(id);
     };
 
     @UseGuards(AuthGuard)
@@ -50,10 +64,4 @@ export class TasksController {
         return await this.tasksService.deleteTask(id, user.username);
     };
 
-    @Get('weekly-stats')
-    @UseGuards(AuthGuard)
-    async getWeeklyStats(@User() user : any) {
-        const username = user.username;
-        return this.tasksService.getWeeklyCompletedStats(username);
-    };
 };

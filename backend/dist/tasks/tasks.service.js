@@ -62,7 +62,7 @@ let TasksService = class TasksService {
     }
     ;
     async getTeamTasks(team) {
-        return await this.taskModel.findOne({ team: team });
+        return await this.taskModel.find({ team: team });
     }
     ;
     async getTasksByUser(username) {
@@ -96,6 +96,10 @@ let TasksService = class TasksService {
             task.completedAt = new Date();
         }
         ;
+        if (status === TaskStatus.IN_PROGRESS) {
+            task.assignedTo = username;
+            task.completedAt = null;
+        }
         task.status = status;
         return await task.save();
     }

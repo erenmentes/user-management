@@ -43,7 +43,7 @@ let TeamsService = class TeamsService {
             throw new common_1.NotFoundException('Team not found.');
         }
         ;
-        if (foundTeam?.createdBy === user) {
+        if (foundTeam?.createdBy === user.username) {
             return this.teamModel.findByIdAndDelete(foundTeam.id);
         }
         else {
@@ -53,10 +53,11 @@ let TeamsService = class TeamsService {
     }
     ;
     async addMember(teamsAddMemberDto, user) {
+        const username = user.username;
         const foundTeam = await this.teamModel.findOne({ name: teamsAddMemberDto.team });
         if (!foundTeam)
             throw new common_1.NotFoundException('Team not found.');
-        if (foundTeam.createdBy !== user) {
+        if (foundTeam.createdBy !== username) {
             throw new common_1.ForbiddenException('You are not allowed to add members.');
         }
         if (!foundTeam.members.includes(teamsAddMemberDto.username)) {
@@ -70,7 +71,7 @@ let TeamsService = class TeamsService {
         const foundTeam = await this.teamModel.findOne({ name: teamsRemoveMemberDto.team });
         if (!foundTeam)
             throw new common_1.NotFoundException('Team not found.');
-        if (foundTeam.createdBy !== user) {
+        if (foundTeam.createdBy !== user.username) {
             throw new common_1.ForbiddenException('You are not allowed to remove members.');
         }
         ;
@@ -84,7 +85,17 @@ let TeamsService = class TeamsService {
     }
     ;
     async getMembers(team) {
-        return await this.teamModel.findOne({ name: team }, { members: 1, _id: 0, createdBy: 0 }).lean();
+        return await this.teamModel.find({ name: team }, { members: 1, _id: 0 }).lean();
+    }
+    ;
+    async getMyTeams(user) {
+        const username = user.username;
+        return await this.teamModel.find({
+            $or: [
+                { members: username },
+                { createdBy: username }
+            ]
+        });
     }
     ;
 };
@@ -94,4 +105,5 @@ exports.TeamsService = TeamsService = __decorate([
     __param(0, (0, mongoose_2.InjectModel)(teams_schema_1.Team.name)),
     __metadata("design:paramtypes", [mongoose_1.Model])
 ], TeamsService);
+;
 //# sourceMappingURL=teams.service.js.map

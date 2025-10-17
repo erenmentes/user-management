@@ -28,5 +28,10 @@ export declare class TeamsController {
         _id: import("mongoose").FlattenMaps<unknown>;
     }> & {
         __v: number;
-    }) | null>;
+    })[]>;
+    getMyTeams(user: any): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/teams.schema").TeamDocument, {}, {}> & import("./schemas/teams.schema").Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
 }

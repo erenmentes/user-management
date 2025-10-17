@@ -8,7 +8,7 @@ import { TeamsModule } from './teams/teams.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [AuthModule, UsersModule, TasksModule, TeamsModule,MongooseModule.forRoot('mongodb+srv://UserManagement:asdasd123@cluster0.fg6niqm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')],
+  imports: [AuthModule, UsersModule, TasksModule, TeamsModule,MongooseModule.forRoot('YOUR_CONNECTION_STRING')],
   controllers: [AppController],
   providers: [AppService],
 })

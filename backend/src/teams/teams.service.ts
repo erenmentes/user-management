@@ -27,25 +27,27 @@ export class TeamsService {
         return newTeam.save();
     };
 
-    async disbandTeam(team: string, user: string) {
+    async disbandTeam(team: string, user: any) {
         const foundTeam = await this.teamModel.findOne({ name: team });
 
         if (!foundTeam) {
             throw new NotFoundException('Team not found.');
         };
 
-        if (foundTeam?.createdBy === user) {
+        if (foundTeam?.createdBy === user.username) {
             return this.teamModel.findByIdAndDelete(foundTeam.id);
         } else {
             throw new UnauthorizedException('You are not allowed to disband team.');
         };
     };
 
-    async addMember(teamsAddMemberDto : TeamsAddMemberDto, user: string) {
+    async addMember(teamsAddMemberDto: TeamsAddMemberDto, user: any) {
+
+        const username = user.username;
         const foundTeam = await this.teamModel.findOne({ name: teamsAddMemberDto.team });
         if (!foundTeam) throw new NotFoundException('Team not found.');
 
-        if (foundTeam.createdBy !== user) {
+        if (foundTeam.createdBy !== username) {
             throw new ForbiddenException('You are not allowed to add members.');
         }
 
@@ -57,11 +59,11 @@ export class TeamsService {
         return foundTeam;
     };
 
-    async removeMember(teamsRemoveMemberDto : TeamsRemoveMemberDto, user: string) {
+    async removeMember(teamsRemoveMemberDto: TeamsRemoveMemberDto, user: any) {
         const foundTeam = await this.teamModel.findOne({ name: teamsRemoveMemberDto.team });
         if (!foundTeam) throw new NotFoundException('Team not found.');
 
-        if (foundTeam.createdBy !== user) {
+        if (foundTeam.createdBy !== user.username) {
             throw new ForbiddenException('You are not allowed to remove members.');
         };
 
@@ -76,7 +78,20 @@ export class TeamsService {
     };
 
     async getMembers(team: string) {
-        return await this.teamModel.findOne({ name: team }, { members: 1, _id: 0, createdBy: 0 }).lean();
+        return await this.teamModel.find(
+            { name: team },
+            { members: 1, _id: 0 }
+        ).lean();
     };
 
-}
+    async getMyTeams(user: any) {
+        const username = user.username;
+        return await this.teamModel.find({
+            $or: [
+                { members: username },
+                { createdBy: username }
+            ]
+        });
+    };
+
+};

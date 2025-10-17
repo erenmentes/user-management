@@ -10,17 +10,17 @@ export declare class TeamsService {
     }> & {
         __v: number;
     }>;
-    disbandTeam(team: string, user: string): Promise<(import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    disbandTeam(team: string, user: any): Promise<(import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }) | null>;
-    addMember(teamsAddMemberDto: TeamsAddMemberDto, user: string): Promise<import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    addMember(teamsAddMemberDto: TeamsAddMemberDto, user: any): Promise<import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    removeMember(teamsRemoveMemberDto: TeamsRemoveMemberDto, user: string): Promise<import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    removeMember(teamsRemoveMemberDto: TeamsRemoveMemberDto, user: any): Promise<import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {
         __v: number;
@@ -29,5 +29,10 @@ export declare class TeamsService {
         _id: import("mongoose").FlattenMaps<unknown>;
     }> & {
         __v: number;
-    }) | null>;
+    })[]>;
+    getMyTeams(user: any): Promise<(import("mongoose").Document<unknown, {}, TeamDocument, {}, {}> & Team & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
 }

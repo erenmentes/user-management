@@ -46,6 +46,7 @@ const Signup = () => {
                 </div>
                 <button onClick={handleSignup} className='bg-blue-600 w-fit px-4 py-2 rounded-2xl flex self-center mt-8 font-bold hover:cursor-pointer'>Signup</button>
             </div>
+            <p className="mt-4">You already have an account? <a href="/login" className="text-blue-600">login</a>!</p>
         </div>
     )
 }
